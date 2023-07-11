@@ -14,9 +14,11 @@ player_y = screen_height - 50
 player_speed = 5
 
 # Define the platform positions and speeds
+rect1 = pygame.Rect(50, screen_height - 100, 200, 10)
+rect2 = pygame.Rect(screen_width - 250, screen_height - 200, 200, 10)
 platforms = [
-    {"rect": pygame.Rect(50, screen_height - 100, 200, 10), "speed": 3},
-    {"rect": pygame.Rect(screen_width - 250, screen_height - 200, 200, 10), "speed": 1}
+    {"rect": rect1, "speed": 3},
+    {"rect": rect2, "speed": 1}
 ]
 
 # Game loop
