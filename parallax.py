@@ -13,20 +13,11 @@ player_x = screen_width // 2
 player_y = screen_height - 50
 player_speed = 5
 
+# Define the platform positions and speeds
 platforms = [
-    pygame.Rect(50, screen_height - 100, 
-                200, 10),
-    pygame.Rect(screen_width - 250, 
-                screen_height - 200, 200, 10)
+    {"rect": pygame.Rect(50, screen_height - 100, 200, 10), "speed": 3},
+    {"rect": pygame.Rect(screen_width - 250, screen_height - 200, 200, 10), "speed": 1}
 ]
-
-background_layers = [
-    pygame.Rect(0, 0, screen_width, screen_height),  
-    pygame.Rect(0, 0, screen_width, screen_height)  
-]
-
-background_colors = [(30, 30, 30), (60, 60, 60)]
-background_speeds = [0.1, 1.0]
 
 # Game loop
 running = True
@@ -39,29 +30,22 @@ while running:
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT] and player_x > 0:
         player_x -= player_speed
+        for platform in platforms:
+            platform["rect"].x -=  platform["speed"]
     if keys[pygame.K_RIGHT] and player_x < screen_width:
         player_x += player_speed
+        for platform in platforms:
+            platform["rect"].x +=  platform["speed"]
+
 
     # Render the game objects
-    screen.fill((0, 0, 0))  
-
-    # Check if the player is moving
-    if keys[pygame.K_LEFT] or keys[pygame.K_RIGHT]:
-        for i in range(len(background_layers)):
-            background_layers[i].x -= background_speeds[i]
-            
-            if background_layers[i].x <= -screen_width:
-                background_layers[i].x = 0
-
-
-        pygame.draw.rect(screen, background_colors[i], background_layers[i])
+    screen.fill((0, 0, 0))
 
     player = pygame.Rect(player_x, player_y, 20, 20)
-
-    pygame.draw.rect(screen, (255, 255, 255), player)  
+    pygame.draw.rect(screen, (255, 255, 255), player)
 
     for platform in platforms:
-        pygame.draw.rect(screen, (0, 255, 0), platform)  
+        pygame.draw.rect(screen, (0, 255, 0), platform["rect"])
 
     pygame.display.flip()
 
